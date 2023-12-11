@@ -126,28 +126,6 @@ export default function TheForm() {
     }
   };
 
-  const handleEdit = (id) => {
-    const articleToEdit = articles.find((article) => article.id === id);
-    if (articleToEdit) {
-      setFormData({ ...articleToEdit });
-      setEditingId(id);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const response = await axios.delete(`http://localhost:3000/posts/${id}`); // Replace with your actual API endpoint
-
-      if (response.status === 200) {
-        fetchPosts(); // Refresh the posts after deleting
-      } else {
-        console.error("Failed to delete post:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error deleting post:", error);
-    }
-  };
-
   return (
     <div className={style.ContainerForm}>
       <form className={style.StyleForm} onSubmit={handleSubmit}>
@@ -239,27 +217,6 @@ export default function TheForm() {
           {editingId !== null ? "Modifica" : "Aggiungi"}
         </button>
       </form>
-      <div className={style.postStyle}>
-        <h1>Articoli dal backend</h1>
-        <ul>
-          {articles.map((article) => (
-            <li key={article.id}>
-              <h2>{article.title}</h2>
-              <img src={article.image} alt={article.title} />
-              <p>{article.content}</p>
-              <p>
-                Category: {article.category ? article.category.name : "N/A"}
-              </p>
-              <p>
-                Tags:{" "}
-                {article.tags.map((tag) => (
-                  <span key={tag.id}>{tag.titleT}, </span>
-                ))}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 }
